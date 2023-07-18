@@ -1,4 +1,4 @@
-package lpa.dev;
+package lpa.collectionsFramework;
 
 import java.util.Arrays;
 import java.util.Collection;
