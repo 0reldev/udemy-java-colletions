@@ -139,5 +139,80 @@ public class Main {
         boolean disjoint2 = Collections.disjoint(kings, tens);
         System.out.println("disjoint = " + disjoint2);
 //        disjoint = true
+
+        deck.sort(sortingAlgorithm);
+        Card tenOfHearts = Card.getNumericCard(Suit.HEART, 10);
+        int foundIndex = Collections.binarySearch(deck, tenOfHearts, sortingAlgorithm);
+        System.out.println("foundIndex = " + foundIndex);
+        System.out.println("foundIndex = " + deck.indexOf(tenOfHearts));
+        System.out.println(deck.get(foundIndex));
+//        foundIndex = 34
+//        foundIndex = 34
+//        10♥(8)
+
+        Card tenOfClubs = Card.getNumericCard(Suit.CLUB, 10);
+        Collections.replaceAll(deck, tenOfClubs, tenOfHearts);
+        Card.printDeck(deck.subList(32, 36), "Ten row", 1);
+//        Ten row
+//        10♥(8) 10♦(8) 10♥(8) 10♠(8)
+
+        Collections.replaceAll(deck, tenOfHearts, tenOfClubs);
+        Card.printDeck(deck.subList(32, 36), "Ten row", 1);
+//        Ten row
+//        10♣(8) 10♦(8) 10♣(8) 10♠(8)
+
+        if (Collections.replaceAll(deck, tenOfHearts, tenOfClubs)) {
+            System.out.println("Tens of hearts replaced found in the list");
+        } else {
+            System.out.println("No tens of hearts found in the list");
+        }
+//        Ten row
+//        10♣(8) 10♦(8) 10♣(8) 10♠(8)
+
+        System.out.println("Ten of Clubs Cards = " +
+                Collections.frequency(deck, tenOfClubs));
+//        Ten of Clubs Cards = 2
+
+        System.out.println("Best card = " + Collections.max(deck, sortingAlgorithm));
+//        Best card = A♠(12)
+
+        System.out.println("Worst card = " + Collections.min(deck, sortingAlgorithm));
+//        Worst card = 2♣(0)
+
+        var sortBySuit = Comparator.comparing(Card::suit)
+                .thenComparing(Card::rank);
+        deck.sort(sortBySuit);
+        Card.printDeck(deck, "Sorted by Suit, Rank", 4);
+//        Sorted by Suit, Rank
+//        2♣(0) 3♣(1) 4♣(2) 5♣(3) 6♣(4) 7♣(5) 8♣(6) 9♣(7) 10♣(8) 10♣(8) J♣(9) Q♣(10) K♣(11)
+//        A♣(12) 2♦(0) 3♦(1) 4♦(2) 5♦(3) 6♦(4) 7♦(5) 8♦(6) 9♦(7) 10♦(8) J♦(9) Q♦(10) K♦(11)
+//        A♦(12) 2♥(0) 3♥(1) 4♥(2) 5♥(3) 6♥(4) 7♥(5) 8♥(6) 9♥(7) J♥(9) Q♥(10) K♥(11) A♥(12)
+//        2♠(0) 3♠(1) 4♠(2) 5♠(3) 6♠(4) 7♠(5) 8♠(6) 9♠(7) 10♠(8) J♠(9) Q♠(10) K♠(11) A♠(12)
+
+        List<Card> copied = new ArrayList<>(deck.subList(0, 13));
+        Collections.rotate(copied, 2);
+        System.out.println("Unrotated: " + deck.subList(0,13));
+//        Unrotated: [2♣(0), 3♣(1), 4♣(2), 5♣(3), 6♣(4), 7♣(5), 8♣(6), 9♣(7), 10♣(8), 10♣(8), J♣(9), Q♣(10), K♣(11)]
+        System.out.println("Rotated " + 2 + ": " + copied);
+//        Rotated 2: [Q♣(10), K♣(11), 2♣(0), 3♣(1), 4♣(2), 5♣(3), 6♣(4), 7♣(5), 8♣(6), 9♣(7), 10♣(8), 10♣(8), J♣(9)]
+
+        copied = new ArrayList<>(deck.subList(0, 13));
+        Collections.rotate(copied, -2);
+        System.out.println("Unrotated: " + deck.subList(0,13));
+//        Unrotated: [2♣(0), 3♣(1), 4♣(2), 5♣(3), 6♣(4), 7♣(5), 8♣(6), 9♣(7), 10♣(8), 10♣(8), J♣(9), Q♣(10), K♣(11)]
+        System.out.println("Rotated " + -2 + ": " + copied);
+//        Rotated -2: [4♣(2), 5♣(3), 6♣(4), 7♣(5), 8♣(6), 9♣(7), 10♣(8), 10♣(8), J♣(9), Q♣(10), K♣(11), 2♣(0), 3♣(1)]
+
+        copied = new ArrayList<>(deck.subList(0, 13));
+        for (int i = 0; i < copied.size() / 2; i++) {
+            Collections.swap(copied, i, copied.size() - 1 - i);
+        }
+        System.out.println("Manual reverse: " +  copied);
+//        Manual reverse: [K♣(11), Q♣(10), J♣(9), 10♣(8), 10♣(8), 9♣(7), 8♣(6), 7♣(5), 6♣(4), 5♣(3), 4♣(2), 3♣(1), 2♣(0)]
+
+        copied = new ArrayList<>(deck.subList(0, 13));
+        Collections.reverse(copied);
+        System.out.println("Using reverse: " + copied);
+//        Using reverse: [K♣(11), Q♣(10), J♣(9), 10♣(8), 10♣(8), 9♣(7), 8♣(6), 7♣(5), 6♣(4), 5♣(3), 4♣(2), 3♣(1), 2♣(0)]
     }
 }
